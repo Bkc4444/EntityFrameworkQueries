@@ -21,5 +21,21 @@ namespace EntityFrameworkQueries
             List<Vendor> vendorList2 = (from vendor in dbContext.Vendors
                                        select vendor).ToList();
         }
+
+        private void btnAllCaliVendors_Click(object sender, EventArgs e)
+        {
+            using APContext dbContext = new();
+
+            List<Vendor> vendorList = dbContext.Vendors
+                                        .Where(vendor => vendor.VendorState == "CA")
+                                        .OrderBy(vendor => vendor.VendorState)
+                                        .ToList();
+
+            List<Vendor> vendorList2 = (from vendor in dbContext.Vendors
+                                       where vendor.VendorState == "CA"
+                                       orderby vendor.VendorName
+                                       select vendor).ToList();
+                                    
+        }
     }
 }
