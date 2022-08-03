@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EntityFrameworkQueries.Models
 {
     public partial class Vendor
     {
+        //[DebuggerDisplay("{VendorName} {VendorState}")]
         public Vendor()
         {
             Invoices = new HashSet<Invoice>();
