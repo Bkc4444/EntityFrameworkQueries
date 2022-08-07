@@ -1,5 +1,6 @@
 using EntityFrameworkQueries.Data;
 using EntityFrameworkQueries.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 namespace EntityFrameworkQueries
@@ -79,8 +80,37 @@ namespace EntityFrameworkQueries
 
             if (singleVendor != null)
             {
-
+                // Do something with the vendor object
             }
+        }
+
+        private void btnVendorsAndInvoices_Click(object sender, EventArgs e)
+        {
+            APContext dbContext = new();
+
+            List<Vendor> allVendors = dbContext.Vendors.Include(allVendors => allVendors.Invoices).ToList();
+
+            // Unfinished code: This pulls a vendor object for each individual invoice, vendors
+            // are also pulled back if they have no invoices
+            //List<Vendor> allVendors = (from vendor in dbContext.Vendors
+            //                          join invoices in dbContext.Invoices
+            //                          on vendor.VendorId equals invoices.VendorId into grouping
+            //                          from invoices in grouping.DefaultIfEmpty()
+            //                          select vendor).ToList();
+
+            StringBuilder results = new();
+
+            foreach(Vendor vendor in allVendors)
+            {
+                results.Append(vendor.VendorName);
+                foreach (Invoice invoice in vendor.Invoices)
+                {
+                    results.Append(",");
+                    results.Append(invoice.InvoiceNumber);
+                }
+                results.AppendLine();
+            }
+            MessageBox.Show(results.ToString());
         }
     }
     class VendorLocation
